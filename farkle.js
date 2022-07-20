@@ -131,13 +131,15 @@ function checkScoreAll(dice) {
   checkScoreSix(dice);
   document.getElementById("checked score").innerHTML = checkedScore;
 }
-
+//Banks the round score
 function bankRoundScore() {
   roundScore += checkedScore;
   checkedScore = 0;
   document.getElementById("checked score").innerHTML = "C: " + checkedScore;
   document.getElementById("round score").innerHTML = "R: " + roundScore;
 }
+
+//Will eventually end round and bank score but for now just banks total score. Resets images to initial images and resets transparency.
 function endRoundScore() {
   totalScore += roundScore;
   checkedScore = 0;
@@ -145,4 +147,8 @@ function endRoundScore() {
   document.getElementById("checked score").innerHTML = "C: " + checkedScore;
   document.getElementById("round score").innerHTML = "R: " + roundScore;
   document.getElementById('total score').innerHTML = "T: " + totalScore
+  initializeDice();
+  updateDiceImg();
+  let imgs = document.querySelectorAll('img');
+  imgs.forEach(img => img.classList.remove('transparent'))
 }
