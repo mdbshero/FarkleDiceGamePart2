@@ -32,7 +32,7 @@ function updateDiceImg() {
     document.getElementById(diceArr[i].id).setAttribute("src", diceImage);
   }
 }
-
+//Changes dice to transparent when clicked. Also changes their clicked attribute and adds clicked dice to clickedDice array. Removes if unclicked.
 function diceClick(img) {
   var i = img.getAttribute("data-number");
   img.classList.toggle("transparent");
