@@ -20,12 +20,15 @@
 		</div>
 	</div>
 	<!-- Scoring -->
-	<div class="row score"> 0 </div>
-
+	<div class="row score" id="checked score">C: 0 </div>
+	<div class="row score" id="round score">R: 0 </div>
+	<div class="row score" id="total score">T: 0 </div>
 	<!-- Button row -->
 	<div class="row">
 		<button class="button roll column" onclick="rollDice()">Roll Dice</button>
-		<button class="button bank column">Bank Score</button>
+		<button class="button bank column" onclick="bankRoundScore()">Bank Round Score</button>
+		<button class="button bank column" onclick="endRoundScore()">End Round Score</button>
+		<button class="button check column" onclick="checkScoreAll()">Check Score</button>
 	</div>
 </body>
 </html>
