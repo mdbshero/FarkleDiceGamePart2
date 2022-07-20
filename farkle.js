@@ -131,10 +131,11 @@ function checkScoreAll(dice) {
   checkScoreSix(dice);
   document.getElementById("checked score").innerHTML = checkedScore;
 }
-//Banks the round score
+//Banks the round score and sets the diceClicked to empty so you cannot use dice you have already scored.
 function bankRoundScore() {
   roundScore += checkedScore;
   checkedScore = 0;
+  diceClicked = [];
   document.getElementById("checked score").innerHTML = "C: " + checkedScore;
   document.getElementById("round score").innerHTML = "R: " + roundScore;
 }
