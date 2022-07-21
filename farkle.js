@@ -1,9 +1,10 @@
 var diceArr = [];
 var diceClicked = []; //Clicked die values
 var checkedScore = 0; // Checked score
+var unclickedCheckScore = 0; //Checks unclicked dice for possible points.
 var roundScore = 0; // Round Score
 var totalScore = 0; //Total score
-let dieValues = []; //pulls die values into array
+var dieValues = []; //pulls die values into array
 function initializeDice() {
   for (i = 0; i < 6; i++) {
     diceArr[i] = {};
@@ -15,12 +16,14 @@ function initializeDice() {
 
 /*Rolling dice values*/
 function rollDice() {
+  dieValues = [];
   for (var i = 0; i < 6; i++) {
     if (diceArr[i].clicked === 0) {
-      diceArr[i].value = (Math.floor(Math.random() * 6) + 1);
-	  dieValues.push(diceArr[i].value);
+      diceArr[i].value = Math.floor(Math.random() * 6) + 1;
+      dieValues.push(diceArr[i].value);
     }
   }
+  checkScoreUnclicked(dieValues)
   updateDiceImg();
 }
 
@@ -66,10 +69,10 @@ function checkScoreOne(dice) {
 }
 //Calculate score for 2s
 function checkScoreTwo(dice) {
-  let lengthOfOne = dice.filter((num) => num === 2).length;
-  if (lengthOfOne === 3) {
+  let lengthOfTwo = dice.filter((num) => num === 2).length;
+  if (lengthOfTwo === 3) {
     checkedScore += 200;
-  } else if (lengthOfOne === 6) {
+  } else if (lengthOfTwo === 6) {
     checkedScore += 400;
   }
 }
@@ -84,36 +87,36 @@ function checkScoreThree(dice) {
 }
 //Calculate score for 4s
 function checkScoreFour(dice) {
-  let lengthOfOne = dice.filter((num) => num === 4).length;
-  if (lengthOfOne === 3) {
+  let lengthOfFour = dice.filter((num) => num === 4).length;
+  if (lengthOfFour === 3) {
     checkedScore += 400;
-  } else if (lengthOfOne === 6) {
+  } else if (lengthOfFour === 6) {
     checkedScore += 800;
   }
 }
 //Calculate score for 5s
 function checkScoreFive(dice) {
-  let lengthOfOne = dice.filter((num) => num === 5).length;
-  if (lengthOfOne === 1) {
+  let lengthOfFive = dice.filter((num) => num === 5).length;
+  if (lengthOfFive === 1) {
     checkedScore += 50;
-  } else if (lengthOfOne === 2) {
+  } else if (lengthOfFive === 2) {
     checkedScore += 100;
-  } else if (lengthOfOne === 3) {
+  } else if (lengthOfFive === 3) {
     checkedScore += 600;
-  } else if (lengthOfOne === 4) {
+  } else if (lengthOfFive === 4) {
     checkedScore += 650;
-  } else if (lengthOfOne === 5) {
+  } else if (lengthOfFive === 5) {
     checkedScore += 700;
-  } else if (lengthOfOne === 6) {
+  } else if (lengthOfFive === 6) {
     checkedScore += 1250;
   }
 }
 //Calculate score for 6s
 function checkScoreSix(dice) {
-  let lengthOfOne = dice.filter((num) => num === 6).length;
-  if (lengthOfOne === 3) {
+  let lengthOfSix = dice.filter((num) => num === 6).length;
+  if (lengthOfSix === 3) {
     checkedScore += 600;
-  } else if (lengthOfOne === 6) {
+  } else if (lengthOfSix === 6) {
     checkedScore += 1200;
   }
 }
@@ -123,6 +126,17 @@ function checkScoreAll(dice) {
   checkedScore = 0;
   dice = diceClicked;
   dice = dice.map((dice) => dice.value);
+  checkScoreOne(dice);
+  checkScoreTwo(dice);
+  checkScoreThree(dice);
+  checkScoreFour(dice);
+  checkScoreFive(dice);
+  checkScoreSix(dice);
+  document.getElementById("checked score").innerHTML = checkedScore;
+}
+//Calculates score of unchecked dice to make sure user did not lose turn
+function checkScoreUnclicked(dice) {
+  checkedScore = 0;
   checkScoreOne(dice);
   checkScoreTwo(dice);
   checkScoreThree(dice);
@@ -147,13 +161,12 @@ function endRoundScore() {
   roundScore = 0;
   document.getElementById("checked score").innerHTML = "C: " + checkedScore;
   document.getElementById("round score").innerHTML = "R: " + roundScore;
-  document.getElementById('total score').innerHTML = "T: " + totalScore
+  document.getElementById("total score").innerHTML = "T: " + totalScore;
   initializeDice();
   updateDiceImg();
-  let imgs = document.querySelectorAll('img');
-  imgs.forEach(img => img.classList.remove('transparent'))
+  let imgs = document.querySelectorAll("img");
+  imgs.forEach((img) => img.classList.remove("transparent"));
 }
-
 
 //Still need to add logic that ends users turn if they cannot score with dice shown. Create array of unclicked dice that scores the potential of the unlicked dice. If zero, ends users turn and gives them zero points.
 //Add another player
