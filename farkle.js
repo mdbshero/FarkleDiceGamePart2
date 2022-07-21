@@ -1,10 +1,17 @@
 var diceArr = [];
 var diceClicked = []; //Clicked die values
 var checkedScore = 0; // Checked score
-var unclickedCheckScore = 0; //Checks unclicked dice for possible points.
+var uncheckedScore = 0; //Checks unclicked dice for possible points.
 var roundScore = 0; // Round Score
 var totalScore = 0; //Total score
 var dieValues = []; //pulls die values into array
+var rollBTN = document.getElementById('roll'); //roll button
+var checkBTN = document.getElementById('check');//Check score button
+var bankBTN = document.getElementById('bank');//Bank Score button
+var endBTN = document.getElementById('end');//End round button
+
+
+
 function initializeDice() {
   for (i = 0; i < 6; i++) {
     diceArr[i] = {};
@@ -17,13 +24,18 @@ function initializeDice() {
 /*Rolling dice values*/
 function rollDice() {
   dieValues = [];
+  uncheckedScore = 0;
   for (var i = 0; i < 6; i++) {
     if (diceArr[i].clicked === 0) {
       diceArr[i].value = Math.floor(Math.random() * 6) + 1;
       dieValues.push(diceArr[i].value);
     }
   }
+  checkBTN.removeAttribute('disabled')
   checkScoreUnclicked(dieValues)
+  if (uncheckedScore === 0) {
+    console.log("please try again")
+  }
   updateDiceImg();
 }
 
@@ -120,9 +132,80 @@ function checkScoreSix(dice) {
     checkedScore += 1200;
   }
 }
+//Calculate score for 1s unchecked
+function uncheckScoreOne(dice) {
+  let lengthOfOne = dice.filter((num) => num === 1).length;
+  if (lengthOfOne === 1) {
+    uncheckedScore += 100;
+  } else if (lengthOfOne === 2) {
+    uncheckedScore += 200;
+  } else if (lengthOfOne === 3) {
+    uncheckedScore += 1200;
+  } else if (lengthOfOne === 4) {
+    uncheckedScore += 1300;
+  } else if (lengthOfOne === 5) {
+    uncheckedScore += 1400;
+  } else if (lengthOfOne === 6) {
+    uncheckedScore += 2600;
+  }
+}
+//Calculate score for 2s unchecked
+function uncheckScoreTwo(dice) {
+  let lengthOfTwo = dice.filter((num) => num === 2).length;
+  if (lengthOfTwo === 3) {
+    uncheckedScore += 200;
+  } else if (lengthOfTwo === 6) {
+    uncheckedScore += 400;
+  }
+}
+//Calculate score for 3s unchecked
+function uncheckScoreThree(dice) {
+  let lengthOfOne = dice.filter((num) => num === 3).length;
+  if (lengthOfOne === 3) {
+    uncheckedScore += 300;
+  } else if (lengthOfOne === 6) {
+    uncheckedScore += 600;
+  }
+}
+//Calculate score for 4s unchecked
+function uncheckScoreFour(dice) {
+  let lengthOfFour = dice.filter((num) => num === 4).length;
+  if (lengthOfFour === 3) {
+    uncheckedScore += 400;
+  } else if (lengthOfFour === 6) {
+    uncheckedScore += 800;
+  }
+}
+//Calculate score for 5s unchecked
+function uncheckScoreFive(dice) {
+  let lengthOfFive = dice.filter((num) => num === 5).length;
+  if (lengthOfFive === 1) {
+    uncheckedScore += 50;
+  } else if (lengthOfFive === 2) {
+    uncheckedScore += 100;
+  } else if (lengthOfFive === 3) {
+    uncheckedScore += 600;
+  } else if (lengthOfFive === 4) {
+    uncheckedScore += 650;
+  } else if (lengthOfFive === 5) {
+    uncheckedScore += 700;
+  } else if (lengthOfFive === 6) {
+    cunheckedScore += 1250;
+  }
+}
+//Calculate score for 6s unchecked
+function uncheckScoreSix(dice) {
+  let lengthOfSix = dice.filter((num) => num === 6).length;
+  if (lengthOfSix === 3) {
+    uncheckedScore += 600;
+  } else if (lengthOfSix === 6) {
+    uncheckedScore += 1200;
+  }
+}
 
 //Calculates score when Check Score is clicked.
 function checkScoreAll(dice) {
+  console.log(diceClicked)
   checkedScore = 0;
   dice = diceClicked;
   dice = dice.map((dice) => dice.value);
@@ -132,26 +215,29 @@ function checkScoreAll(dice) {
   checkScoreFour(dice);
   checkScoreFive(dice);
   checkScoreSix(dice);
-  document.getElementById("checked score").innerHTML = checkedScore;
+  document.getElementById("checked score").innerHTML = 'C: ' + checkedScore;
+  bankBTN.removeAttribute('disabled')
 }
 //Calculates score of unchecked dice to make sure user did not lose turn
 function checkScoreUnclicked(dice) {
-  checkedScore = 0;
-  checkScoreOne(dice);
-  checkScoreTwo(dice);
-  checkScoreThree(dice);
-  checkScoreFour(dice);
-  checkScoreFive(dice);
-  checkScoreSix(dice);
-  document.getElementById("checked score").innerHTML = checkedScore;
+  uncheckedScore = 0;
+  uncheckScoreOne(dice);
+  uncheckScoreTwo(dice);
+  uncheckScoreThree(dice);
+  uncheckScoreFour(dice);
+  uncheckScoreFive(dice);
+  uncheckScoreSix(dice);
+  document.getElementById("unchecked score").innerHTML = 'UN: ' + uncheckedScore;
 }
 //Banks the round score and sets the diceClicked to empty so you cannot use dice you have already scored.
 function bankRoundScore() {
   roundScore += checkedScore;
   checkedScore = 0;
+  uncheckedScore = 0;
   diceClicked = [];
   document.getElementById("checked score").innerHTML = "C: " + checkedScore;
   document.getElementById("round score").innerHTML = "R: " + roundScore;
+  document.getElementById("unchecked score").innerHTML = "UC: " + uncheckedScore;
 }
 
 //Will eventually end round and bank score but for now just banks total score. Resets images to initial images and resets transparency.
@@ -159,9 +245,13 @@ function endRoundScore() {
   totalScore += roundScore;
   checkedScore = 0;
   roundScore = 0;
+  uncheckedScore = 0;
   document.getElementById("checked score").innerHTML = "C: " + checkedScore;
   document.getElementById("round score").innerHTML = "R: " + roundScore;
   document.getElementById("total score").innerHTML = "T: " + totalScore;
+  document.getElementById("unchecked score").innerHTML = "UN: " + uncheckedScore;
+  bankBTN.setAttribute('disabled', '')
+  checkBTN.setAttribute('disabled', '')
   initializeDice();
   updateDiceImg();
   let imgs = document.querySelectorAll("img");

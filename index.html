@@ -2,7 +2,6 @@
 <html>
 <head>
 	<link rel="stylesheet" type="text/css" href="farkle.css">
-	<script type="text/javascript" src="farkle.js"></script>
 	<title>Farkle!</title>
 </head>
 
@@ -20,15 +19,17 @@
 		</div>
 	</div>
 	<!-- Scoring -->
+	<div class="row score" id="unchecked score">UC: 0 </div>
 	<div class="row score" id="checked score">C: 0 </div>
 	<div class="row score" id="round score">R: 0 </div>
 	<div class="row score" id="total score">T: 0 </div>
 	<!-- Button row -->
 	<div class="row">
-		<button class="button roll column" onclick="rollDice()">Roll Dice</button>
-		<button class="button check column" onclick="checkScoreAll()">Check Score</button>
-		<button class="button bank column" onclick="bankRoundScore()">Bank Round Score</button>
-		<button class="button bank column" onclick="endRoundScore()">End Round Score</button>
+		<button class="button roll column" onclick="rollDice()" id="roll">Roll Dice</button>
+		<button class="button check column" onclick="checkScoreAll()" id="check" disabled>Check Score</button>
+		<button class="button bank column" onclick="bankRoundScore()" id="bank" disabled>Bank Round Score</button>
+		<button class="button bank column" onclick="endRoundScore()" id="end">End Round Score</button>
 	</div>
+	<script type="text/javascript" src="farkle.js"></script>
 </body>
 </html>
