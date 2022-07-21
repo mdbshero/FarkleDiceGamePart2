@@ -153,3 +153,8 @@ function endRoundScore() {
   let imgs = document.querySelectorAll('img');
   imgs.forEach(img => img.classList.remove('transparent'))
 }
+
+
+//Still need to add logic that ends users turn if they cannot score with dice shown. Create array of unclicked dice that scores the potential of the unlicked dice. If zero, ends users turn and gives them zero points.
+//Add another player
+//Update CSS
