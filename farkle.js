@@ -5,6 +5,7 @@ var uncheckedScore = 0; //Checks unclicked dice for possible points.
 var roundScore = 0; // Round Score
 var totalScore = 0; //Total score
 var dieValues = []; //pulls die values into array
+var gameRound = 1; //Keeps track of game round
 var rollBTN = document.getElementById('roll'); //roll button
 var checkBTN = document.getElementById('check');//Check score button
 var bankBTN = document.getElementById('bank');//Bank Score button
@@ -34,7 +35,10 @@ function rollDice() {
   checkBTN.removeAttribute('disabled')
   checkScoreUnclicked(dieValues)
   if (uncheckedScore === 0) {
-    console.log("please try again")
+    roundScore = 0;
+    bankBTN.setAttribute('disabled', '')
+    checkBTN.setAttribute('disabled', '')
+    document.getElementById('header').innerHTML = "You Farkled! Please Click End Round"
   }
   updateDiceImg();
 }
@@ -246,12 +250,14 @@ function endRoundScore() {
   checkedScore = 0;
   roundScore = 0;
   uncheckedScore = 0;
+  gameRound++;
   document.getElementById("checked score").innerHTML = "C: " + checkedScore;
   document.getElementById("round score").innerHTML = "R: " + roundScore;
   document.getElementById("total score").innerHTML = "T: " + totalScore;
   document.getElementById("unchecked score").innerHTML = "UN: " + uncheckedScore;
   bankBTN.setAttribute('disabled', '')
   checkBTN.setAttribute('disabled', '')
+  document.getElementById('header').innerHTML = "Round: " + gameRound
   initializeDice();
   updateDiceImg();
   let imgs = document.querySelectorAll("img");
