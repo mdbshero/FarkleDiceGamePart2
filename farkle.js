@@ -3,8 +3,8 @@ var diceClicked = []; //Clicked die values
 var checkedScore = 0; // Checked score
 var uncheckedScore = 0; //Checks unclicked dice for possible points.
 var roundScore = 0; // Round Score
-var totalScoreOne = 0; //Total score
-var totalScoreTwo = 0;
+var totalScoreOne = 0; //Total score player 1
+var totalScoreTwo = 0; //Total score player 2
 var dieValues = []; //pulls die values into array
 var gameRound = 1; //Keeps track of game round
 var player = 1; //Current Player
@@ -26,7 +26,9 @@ function initializeDice() {
 function rollDice() {
   dieValues = [];
   uncheckedScore = 0;
-  document.getElementById("header").innerHTML = "Player "+ player + " Round: " + gameRound;
+  //updates header to which round and player.
+  document.getElementById("header").innerHTML =
+    "Player " + player + " Round: " + gameRound;
   for (var i = 0; i < 6; i++) {
     if (diceArr[i].clicked === 0) {
       diceArr[i].value = Math.floor(Math.random() * 6) + 1;
@@ -35,6 +37,7 @@ function rollDice() {
   }
   checkBTN.removeAttribute("disabled");
   checkScoreUnclicked(dieValues);
+  //checks to see if the player rolled a Farkle aka an unscoring round. Must pass turn.
   if (uncheckedScore === 0) {
     roundScore = 0;
     if (player === 1) {
@@ -42,7 +45,8 @@ function rollDice() {
     } else {
       document.getElementById("round score 2").innerHTML = "R: " + roundScore;
     }
-    rollBTN.setAttribute("disabled", '')
+    //Set buttons to disabled
+    rollBTN.setAttribute("disabled", "");
     bankBTN.setAttribute("disabled", "");
     checkBTN.setAttribute("disabled", "");
     document.getElementById("header").innerHTML =
@@ -68,7 +72,7 @@ function diceClick(img) {
     diceClicked.push(diceArr[i]); //Creates array filled with clicked dice for scoring.
   } else {
     checkedScore = 0; // resets score so that gameLogic function can recalculate score with new clicked array.
-    if (player === 1){
+    if (player === 1) {
       document.getElementById("checked score 1").innerHTML = checkedScore;
     } else {
       document.getElementById("checked score 2").innerHTML = checkedScore;
@@ -86,13 +90,13 @@ function checkScoreOne(dice) {
   } else if (lengthOfOne === 2) {
     checkedScore += 200;
   } else if (lengthOfOne === 3) {
-    checkedScore += 1200;
+    checkedScore += 1000;
   } else if (lengthOfOne === 4) {
-    checkedScore += 1300;
+    checkedScore += 1100;
   } else if (lengthOfOne === 5) {
-    checkedScore += 1400;
+    checkedScore += 1200;
   } else if (lengthOfOne === 6) {
-    checkedScore += 2600;
+    checkedScore += 2200;
   }
 }
 //Calculate score for 2s
@@ -130,13 +134,13 @@ function checkScoreFive(dice) {
   } else if (lengthOfFive === 2) {
     checkedScore += 100;
   } else if (lengthOfFive === 3) {
-    checkedScore += 600;
+    checkedScore += 500;
   } else if (lengthOfFive === 4) {
-    checkedScore += 650;
+    checkedScore += 550;
   } else if (lengthOfFive === 5) {
-    checkedScore += 700;
+    checkedScore += 600;
   } else if (lengthOfFive === 6) {
-    checkedScore += 1250;
+    checkedScore += 1100;
   }
 }
 //Calculate score for 6s
@@ -156,13 +160,13 @@ function uncheckScoreOne(dice) {
   } else if (lengthOfOne === 2) {
     uncheckedScore += 200;
   } else if (lengthOfOne === 3) {
-    uncheckedScore += 1200;
+    uncheckedScore += 1000;
   } else if (lengthOfOne === 4) {
-    uncheckedScore += 1300;
+    uncheckedScore += 1100;
   } else if (lengthOfOne === 5) {
-    uncheckedScore += 1400;
+    uncheckedScore += 1200;
   } else if (lengthOfOne === 6) {
-    uncheckedScore += 2600;
+    uncheckedScore += 2200;
   }
 }
 //Calculate score for 2s unchecked
@@ -200,13 +204,13 @@ function uncheckScoreFive(dice) {
   } else if (lengthOfFive === 2) {
     uncheckedScore += 100;
   } else if (lengthOfFive === 3) {
-    uncheckedScore += 600;
+    uncheckedScore += 500;
   } else if (lengthOfFive === 4) {
-    uncheckedScore += 650;
+    uncheckedScore += 550;
   } else if (lengthOfFive === 5) {
-    uncheckedScore += 700;
+    uncheckedScore += 600;
   } else if (lengthOfFive === 6) {
-    cunheckedScore += 1250;
+    cunheckedScore += 1100;
   }
 }
 //Calculate score for 6s unchecked
@@ -249,10 +253,10 @@ function checkScoreUnclicked(dice) {
   uncheckScoreSix(dice);
   if (player === 1) {
     document.getElementById("unchecked score 1").innerHTML =
-    "UN: " + uncheckedScore;
+      "UN: " + uncheckedScore;
   } else {
     document.getElementById("unchecked score 2").innerHTML =
-    "UN: " + uncheckedScore;
+      "UN: " + uncheckedScore;
   }
 }
 //Banks the round score and sets the diceClicked to empty so you cannot use dice you have already scored.
@@ -281,7 +285,7 @@ function endRoundScore() {
     checkedScore = 0;
     roundScore = 0;
     uncheckedScore = 0;
-    console.log(totalScoreOne)
+    console.log(totalScoreOne);
     document.getElementById("total score 1").innerHTML = "T: " + totalScoreOne;
     document.getElementById("header").innerHTML =
       "Player 2 Round: " + gameRound;
@@ -289,8 +293,8 @@ function endRoundScore() {
     document.getElementById("round score 1").innerHTML = "R: " + roundScore;
     document.getElementById("unchecked score 1").innerHTML =
       "UN: " + uncheckedScore;
-      player = 2;
-      gameEnd();
+    player = 2;
+    gameEnd();
   } else {
     totalScoreTwo += roundScore;
     checkedScore = 0;
@@ -302,9 +306,9 @@ function endRoundScore() {
     document.getElementById("round score 2").innerHTML = "R: " + roundScore;
     document.getElementById("unchecked score 2").innerHTML =
       "UN: " + uncheckedScore;
-      document.getElementById("header").innerHTML =
+    document.getElementById("header").innerHTML =
       "Player 1 Round: " + gameRound;
-    player = 1
+    player = 1;
     gameEnd();
   }
   bankBTN.setAttribute("disabled", "");
@@ -313,12 +317,14 @@ function endRoundScore() {
   updateDiceImg();
   let imgs = document.querySelectorAll("img");
   imgs.forEach((img) => img.classList.remove("transparent"));
-  rollBTN.removeAttribute('disabled')
+  rollBTN.removeAttribute("disabled");
 }
-
+//checks to see if either player is a winner. If so, get ends and play resets.
 function gameEnd() {
   if (totalScoreOne >= 10000 || totalScoreTwo >= 10000) {
-    totalScoreOne >= 10000 ? document.getElementById('header').innerHTML = "Player 1 Wins" : document.getElementById('header').innerHTML = "Player 2 Wins";
+    totalScoreOne >= 10000
+      ? (document.getElementById("header").innerHTML = "Player 1 Wins")
+      : (document.getElementById("header").innerHTML = "Player 2 Wins");
     totalScoreOne = 0;
     totalScoreTwo = 0;
     roundScore = 0;
@@ -329,11 +335,11 @@ function gameEnd() {
     document.getElementById("round score 2").innerHTML = "R: " + roundScore;
     document.getElementById("unchecked score 2").innerHTML =
       "UN: " + uncheckedScore;
-      document.getElementById("total score 1").innerHTML = "T: " + totalScoreTwo;
-      document.getElementById("checked score 1").innerHTML = "C: " + checkedScore;
-      document.getElementById("round score 1").innerHTML = "R: " + roundScore;
-      document.getElementById("unchecked score 1").innerHTML =
-        "UN: " + uncheckedScore;
+    document.getElementById("total score 1").innerHTML = "T: " + totalScoreTwo;
+    document.getElementById("checked score 1").innerHTML = "C: " + checkedScore;
+    document.getElementById("round score 1").innerHTML = "R: " + roundScore;
+    document.getElementById("unchecked score 1").innerHTML =
+      "UN: " + uncheckedScore;
     bankBTN.setAttribute("disabled", "");
     checkBTN.setAttribute("disabled", "");
     initializeDice();
@@ -346,7 +352,9 @@ function gameEnd() {
 }
 
 //Still need to add logic that ends users turn if they cannot score with dice shown. Create array of unclicked dice that scores the potential of the unlicked dice. If zero, ends users turn and gives them zero points.
-//done ^
+//Done ^
 //Add another player
+//Done ^
+//Disable Roll Dice Button to force player to score round so they cannot just keep rolling without scoring each roll.
 //Current ^
 //Update CSS
