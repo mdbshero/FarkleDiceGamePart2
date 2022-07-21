@@ -36,6 +36,7 @@ function rollDice() {
   checkScoreUnclicked(dieValues)
   if (uncheckedScore === 0) {
     roundScore = 0;
+    document.getElementById("round score").innerHTML = "R: " + roundScore;
     bankBTN.setAttribute('disabled', '')
     checkBTN.setAttribute('disabled', '')
     document.getElementById('header').innerHTML = "You Farkled! Please Click End Round"
