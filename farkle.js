@@ -36,6 +36,7 @@ function rollDice() {
     }
   }
   checkBTN.removeAttribute("disabled");
+  rollBTN.setAttribute("disabled", "");
   checkScoreUnclicked(dieValues);
   //checks to see if the player rolled a Farkle aka an unscoring round. Must pass turn.
   if (uncheckedScore === 0) {
@@ -264,9 +265,11 @@ function bankRoundScore() {
   roundScore += checkedScore;
   checkedScore = 0;
   uncheckedScore = 0;
-  for (let k = 0; k < diceClicked.length; k ++) {
+  for (let k = 0; k < diceClicked.length; k++) {
     if (diceClicked[k].clicked === 1) {
-      document.getElementById(`${diceClicked[k].id}`).setAttribute('class', 'transparent unclickable')
+      document
+        .getElementById(`${diceClicked[k].id}`)
+        .setAttribute("class", "transparent unclickable");
     }
   }
   diceClicked = [];
@@ -281,6 +284,9 @@ function bankRoundScore() {
     document.getElementById("unchecked score 2").innerHTML =
       "UC: " + uncheckedScore;
   }
+  rollBTN.removeAttribute("disabled");
+  checkBTN.setAttribute("disabled", "");
+  bankBTN.setAttribute("disabled", "");
 }
 
 //Will eventually end round and bank score but for now just banks total score. Resets images to initial images and resets transparency.
@@ -361,5 +367,6 @@ function gameEnd() {
 //Add another player
 //Done ^
 //Disable Roll Dice Button to force player to score round so they cannot just keep rolling without scoring each roll.
-//Current ^
+//Done ^
 //Update CSS
+//Current ^
