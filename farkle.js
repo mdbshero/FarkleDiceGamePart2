@@ -25,12 +25,15 @@ function initializeDice() {
 /*Rolling dice values*/
 function rollDice() {
   dieValues = [];
+  var imgs;
   uncheckedScore = 0;
   //updates header to which round and player.
   document.getElementById("header").innerHTML =
     "Player " + player + " Round: " + gameRound;
   for (var i = 0; i < 6; i++) {
     if (diceArr[i].clicked === 0) {
+      imgs = document.getElementById(diceArr[i].id).classList;
+      imgs.add("shake"); //adds shake effect
       diceArr[i].value = Math.floor(Math.random() * 6) + 1;
       dieValues.push(diceArr[i].value);
     }
@@ -58,8 +61,22 @@ function rollDice() {
 
 /*Updating images of dice given values of rollDice*/
 function updateDiceImg() {
+  setTimeout(function () {
+    var diceImage;
+    for (var i = 0; i < 6; i++) {
+      imgs = document.getElementById(diceArr[i].id).classList;
+      imgs.remove("shake"); // removes shake effect
+      diceImage = "images/" + diceArr[i].value + ".png"; //Fixed to diceArr[i].value to show actual value of die and not just the number in list.
+      document.getElementById(diceArr[i].id).setAttribute("src", diceImage);
+    }
+  }, 1000);
+}
+//Quicket update to beginning dice images for faster play.
+function updateDiceImgEnd() {
   var diceImage;
   for (var i = 0; i < 6; i++) {
+    imgs = document.getElementById(diceArr[i].id).classList;
+    imgs.remove("shake"); // removes shake effect
     diceImage = "images/" + diceArr[i].value + ".png"; //Fixed to diceArr[i].value to show actual value of die and not just the number in list.
     document.getElementById(diceArr[i].id).setAttribute("src", diceImage);
   }
@@ -325,7 +342,7 @@ function endRoundScore() {
   bankBTN.setAttribute("disabled", "");
   checkBTN.setAttribute("disabled", "");
   initializeDice();
-  updateDiceImg();
+  updateDiceImgEnd();
   let imgs = document.querySelectorAll("img");
   imgs.forEach((img) => img.classList.remove("transparent", "unclickable"));
   rollBTN.removeAttribute("disabled");
