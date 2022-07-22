@@ -264,6 +264,11 @@ function bankRoundScore() {
   roundScore += checkedScore;
   checkedScore = 0;
   uncheckedScore = 0;
+  for (let k = 0; k < diceClicked.length; k ++) {
+    if (diceClicked[k].clicked === 1) {
+      document.getElementById(`${diceClicked[k].id}`).setAttribute('class', 'transparent unclickable')
+    }
+  }
   diceClicked = [];
   if (player === 1) {
     document.getElementById("checked score 1").innerHTML = "C: " + checkedScore;
@@ -316,7 +321,7 @@ function endRoundScore() {
   initializeDice();
   updateDiceImg();
   let imgs = document.querySelectorAll("img");
-  imgs.forEach((img) => img.classList.remove("transparent"));
+  imgs.forEach((img) => img.classList.remove("transparent", "unclickable"));
   rollBTN.removeAttribute("disabled");
 }
 //checks to see if either player is a winner. If so, get ends and play resets.

@@ -1,6 +1,9 @@
 img{
 	width:80px;
 }
+.unclickable {
+	pointer-events: none;
+}
 .wrapper {
     width: 80%;
     margin: auto;
