@@ -27,14 +27,15 @@ function pageLoad() {
   initializeDice();
   promptPlayers();
   for (let i = 0; i < playerNum; i++) {
-    activePlayers.push(new humanPlayer(i + 1));
-    var playerBox = document.createElement("div");
+    activePlayers.push(new humanPlayer(i + 1)); //Adds a new player to the list
+    var playerBox = document.createElement("div");//creates the div element to be added.
+    //Adds what the div element contains.
     playerBox.innerHTML = `
 <div class="score">Player ${i + 1}</div>
-<div class="row score" id="unchecked score 1">UC: 0 </div>
-<div class="row score" id="checked score 1">Check Score: 0 </div>
-<div class="row score" id="round score 1">Round Score: 0 </div>
-<div class="row score" id="total score 1">Total Score: 0 </div>
+<div class="row score" id="unchecked score ${i+1}">UC: 0 </div>
+<div class="row score" id="checked score ${i+1}">Check Score: 0 </div>
+<div class="row score" id="round score ${i+1}">Round Score: 0 </div>
+<div class="row score" id="total score ${i+1}">Total Score: 0 </div>
 `;
 console.log(playerBox, i)
     playerNode.appendChild(playerBox, playerNode.children[0]);
