@@ -13,25 +13,33 @@ var checkBTN = document.getElementById("check"); //Check score button
 var bankBTN = document.getElementById("bank"); //Bank Score button
 var endBTN = document.getElementById("end"); //End round button
 var playerNum = 0; // Number of players\
+var playerNode = document.getElementById("players");
+var playerBox = document.createElement("div");
 class humanPlayer {
-  constructor (num) {
-    this.name = `Player ${(num)}`;
+  constructor(num) {
+    this.name = `Player ${num}`;
     this.totalScore = 0;
   }
 }
 var activePlayers = [];
 
-
-
 function pageLoad() {
   initializeDice();
   promptPlayers();
-  for (let i = playerNum; i > 0; i--) {
-    activePlayers.push(new humanPlayer(i));
-
+  for (let i = 0; i < playerNum; i++) {
+    activePlayers.push(new humanPlayer(i + 1));
+    var playerBox = document.createElement("div");
+    playerBox.innerHTML = `
+<div class="score">Player ${i + 1}</div>
+<div class="row score" id="unchecked score 1">UC: 0 </div>
+<div class="row score" id="checked score 1">Check Score: 0 </div>
+<div class="row score" id="round score 1">Round Score: 0 </div>
+<div class="row score" id="total score 1">Total Score: 0 </div>
+`;
+console.log(playerBox, i)
+    playerNode.appendChild(playerBox, playerNode.children[0]);
   }
 }
-
 
 function initializeDice() {
   for (i = 0; i < 6; i++) {
@@ -43,7 +51,7 @@ function initializeDice() {
 }
 
 function promptPlayers() {
-  playerNum = prompt("How many players would you like to play?", '2');
+  playerNum = parseInt(prompt("How many players would you like to play?", 2));
   return playerNum;
 }
 
