@@ -28,16 +28,15 @@ function pageLoad() {
   promptPlayers();
   for (let i = 0; i < playerNum; i++) {
     activePlayers.push(new humanPlayer(i + 1)); //Adds a new player to the list
-    var playerBox = document.createElement("div");//creates the div element to be added.
+    var playerBox = document.createElement("div"); //creates the div element to be added.
     //Adds what the div element contains.
     playerBox.innerHTML = `
 <div class="score">Player ${i + 1}</div>
-<div class="row score" id="unchecked score ${i+1}">UC: 0 </div>
-<div class="row score" id="checked score ${i+1}">Check Score: 0 </div>
-<div class="row score" id="round score ${i+1}">Round Score: 0 </div>
-<div class="row score" id="total score ${i+1}">Total Score: 0 </div>
+<div class="row score" id="unchecked score ${i + 1}">UC: 0 </div>
+<div class="row score" id="checked score ${i + 1}">Check Score: 0 </div>
+<div class="row score" id="round score ${i + 1}">Round Score: 0 </div>
+<div class="row score" id="total score ${i + 1}">Total Score: 0 </div>
 `;
-console.log(playerBox, i)
     playerNode.appendChild(playerBox, playerNode.children[0]);
   }
 }
@@ -52,7 +51,7 @@ function initializeDice() {
 }
 
 function promptPlayers() {
-  playerNum = parseInt(prompt("How many players would you like to play?", 2));
+  playerNum = parseInt(prompt("How many players would you like to play?", 2));//asks player to select how many players and turns it into an int.
   return playerNum;
 }
 
@@ -78,11 +77,7 @@ function rollDice() {
   //checks to see if the player rolled a Farkle aka an unscoring round. Must pass turn.
   if (uncheckedScore === 0) {
     roundScore = 0;
-    if (player === 1) {
-      document.getElementById("round score 1").innerHTML = "R: " + roundScore;
-    } else {
-      document.getElementById("round score 2").innerHTML = "R: " + roundScore;
-    }
+    document.getElementById(`round score ${player}`).innerHTML = "Round Score: " + roundScore;
     //Set buttons to disabled
     rollBTN.setAttribute("disabled", "");
     bankBTN.setAttribute("disabled", "");
@@ -124,11 +119,7 @@ function diceClick(img) {
     diceClicked.push(diceArr[i]); //Creates array filled with clicked dice for scoring.
   } else {
     checkedScore = 0; // resets score so that gameLogic function can recalculate score with new clicked array.
-    if (player === 1) {
-      document.getElementById("checked score 1").innerHTML = checkedScore;
-    } else {
-      document.getElementById("checked score 2").innerHTML = checkedScore;
-    }
+    document.getElementById(`checked score ${player}`).innerHTML = `Check Score: ` + checkedScore;
     diceArr[i].clicked = 0; //Fixed to it actually sets .clicked to 1
     diceClicked = diceClicked.filter((die) => die.id !== diceArr[i].id); //Removed dice from array that are not clicked.
   }
@@ -136,7 +127,6 @@ function diceClick(img) {
 //Calculate score for 1s
 function checkScoreOne(dice) {
   let lengthOfOne = dice.filter((num) => num === 1).length;
-  console.log(lengthOfOne);
   if (lengthOfOne === 1) {
     checkedScore += 100;
   } else if (lengthOfOne === 2) {
@@ -287,11 +277,8 @@ function checkScoreAll(dice) {
   checkScoreFour(dice);
   checkScoreFive(dice);
   checkScoreSix(dice);
-  if (player === 1) {
-    document.getElementById("checked score 1").innerHTML = "C: " + checkedScore;
-  } else {
-    document.getElementById("checked score 2").innerHTML = "C: " + checkedScore;
-  }
+  document.getElementById(`checked score ${player}`).innerHTML =
+    "Check Score: " + checkedScore;
   bankBTN.removeAttribute("disabled");
 }
 //Calculates score of unchecked dice to make sure user did not lose turn
@@ -303,13 +290,8 @@ function checkScoreUnclicked(dice) {
   uncheckScoreFour(dice);
   uncheckScoreFive(dice);
   uncheckScoreSix(dice);
-  if (player === 1) {
-    document.getElementById("unchecked score 1").innerHTML =
-      "UN: " + uncheckedScore;
-  } else {
-    document.getElementById("unchecked score 2").innerHTML =
-      "UN: " + uncheckedScore;
-  }
+  document.getElementById(`unchecked score ${player}`).innerHTML =
+    "UN: " + uncheckedScore;
 }
 //Banks the round score and sets the diceClicked to empty so you cannot use dice you have already scored.
 function bankRoundScore() {
@@ -324,17 +306,12 @@ function bankRoundScore() {
     }
   }
   diceClicked = [];
-  if (player === 1) {
-    document.getElementById("checked score 1").innerHTML = "C: " + checkedScore;
-    document.getElementById("round score 1").innerHTML = "R: " + roundScore;
-    document.getElementById("unchecked score 1").innerHTML =
-      "UC: " + uncheckedScore;
-  } else {
-    document.getElementById("checked score 2").innerHTML = "C: " + checkedScore;
-    document.getElementById("round score 2").innerHTML = "R: " + roundScore;
-    document.getElementById("unchecked score 2").innerHTML =
-      "UC: " + uncheckedScore;
-  }
+  document.getElementById(`checked score ${player}`).innerHTML =
+    "Checked: " + checkedScore;
+  document.getElementById(`round score ${player}`).innerHTML =
+    "Round: " + roundScore;
+  document.getElementById(`unchecked score ${player}`).innerHTML =
+    "UC: " + uncheckedScore;
   rollBTN.removeAttribute("disabled");
   checkBTN.setAttribute("disabled", "");
   bankBTN.setAttribute("disabled", "");
@@ -342,37 +319,24 @@ function bankRoundScore() {
 
 //Will eventually end round and bank score but for now just banks total score. Resets images to initial images and resets transparency.
 function endRoundScore() {
-  if (player === 1) {
-    totalScoreOne += roundScore;
-    checkedScore = 0;
-    roundScore = 0;
-    uncheckedScore = 0;
-    console.log(totalScoreOne);
-    document.getElementById("total score 1").innerHTML = "T: " + totalScoreOne;
-    document.getElementById("header").innerHTML =
-      "Player 2 Round: " + gameRound;
-    document.getElementById("checked score 1").innerHTML = "C: " + checkedScore;
-    document.getElementById("round score 1").innerHTML = "R: " + roundScore;
-    document.getElementById("unchecked score 1").innerHTML =
-      "UN: " + uncheckedScore;
-    player = 2;
-    gameEnd();
-  } else {
-    totalScoreTwo += roundScore;
-    checkedScore = 0;
-    roundScore = 0;
-    uncheckedScore = 0;
+  activePlayers[player - 1].totalScore += roundScore;
+  checkedScore = 0;
+  roundScore = 0;
+  uncheckedScore = 0;
+  document.getElementById(`total score ${player}`).innerHTML = "Total Score: " + activePlayers[player - 1].totalScore;
+  document.getElementById(`header`).innerHTML = `Player ${player} Round: ` + gameRound;
+  document.getElementById(`checked score ${player}`).innerHTML = "Checked Score: " + checkedScore;
+  document.getElementById(`round score ${player}`).innerHTML = "Round Score: " + roundScore;
+  document.getElementById(`unchecked score ${player}`).innerHTML =
+    "UN: " + uncheckedScore;
+  gameEnd();
+  if (player === playerNum) {
     gameRound++;
-    document.getElementById("total score 2").innerHTML = "T: " + totalScoreTwo;
-    document.getElementById("checked score 2").innerHTML = "C: " + checkedScore;
-    document.getElementById("round score 2").innerHTML = "R: " + roundScore;
-    document.getElementById("unchecked score 2").innerHTML =
-      "UN: " + uncheckedScore;
-    document.getElementById("header").innerHTML =
-      "Player 1 Round: " + gameRound;
     player = 1;
-    gameEnd();
+  } else {
+    player++;
   }
+  console.log(player)
   bankBTN.setAttribute("disabled", "");
   checkBTN.setAttribute("disabled", "");
   initializeDice();
@@ -392,9 +356,9 @@ function gameEnd() {
     roundScore = 0;
     checkedScore = 0;
     uncheckedScore = 0;
-    document.getElementById("total score 2").innerHTML = "T: " + totalScoreTwo;
-    document.getElementById("checked score 2").innerHTML = "C: " + checkedScore;
-    document.getElementById("round score 2").innerHTML = "R: " + roundScore;
+    document.getElementById("total score 2").innerHTML = "Total Score: " + totalScoreTwo;
+    document.getElementById("checked score 2").innerHTML = "Checked Score: " + checkedScore;
+    document.getElementById("round score 2").innerHTML = "Round Score: " + roundScore;
     document.getElementById("unchecked score 2").innerHTML =
       "UN: " + uncheckedScore;
     document.getElementById("total score 1").innerHTML = "T: " + totalScoreTwo;
