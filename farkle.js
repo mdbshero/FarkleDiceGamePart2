@@ -12,6 +12,26 @@ var rollBTN = document.getElementById("roll"); //roll button
 var checkBTN = document.getElementById("check"); //Check score button
 var bankBTN = document.getElementById("bank"); //Bank Score button
 var endBTN = document.getElementById("end"); //End round button
+var playerNum = 0; // Number of players\
+class humanPlayer {
+  constructor (num) {
+    this.name = `Player ${(num)}`;
+    this.totalScore = 0;
+  }
+}
+var activePlayers = [];
+
+
+
+function pageLoad() {
+  initializeDice();
+  promptPlayers();
+  for (let i = playerNum; i > 0; i--) {
+    activePlayers.push(new humanPlayer(i));
+
+  }
+}
+
 
 function initializeDice() {
   for (i = 0; i < 6; i++) {
@@ -20,6 +40,11 @@ function initializeDice() {
     diceArr[i].value = i + 1;
     diceArr[i].clicked = 0;
   }
+}
+
+function promptPlayers() {
+  playerNum = prompt("How many players would you like to play?", '2');
+  return playerNum;
 }
 
 /*Rolling dice values*/

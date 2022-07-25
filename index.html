@@ -6,10 +6,11 @@
 	<title>Farkle!</title>
 </head>
 
-<body onload="initializeDice()">
+<body onload="pageLoad()">
 	<div class="wrapper">
 		<header class="row header" id="header">Welcome to Farkle!</header>
 		<div class="row">
+
 			<!-- Dice images -->
 			<div class="dice">
 				<img src="images/1.png" id="die1" data-number="0" onclick="diceClick(this)">
@@ -21,19 +22,22 @@
 			</div>
 		</div>
 		<!-- Scoring -->
+		<div id="players">
+
+		</div>
 		<div>
 			<div class="score">Player 1</div>
 			<div class="row score" id="unchecked score 1">UC: 0 </div>
-			<div class="row score" id="checked score 1">C: 0 </div>
-			<div class="row score" id="round score 1">R: 0 </div>
-			<div class="row score" id="total score 1">T: 0 </div>
+			<div class="row score" id="checked score 1">Check Score: 0 </div>
+			<div class="row score" id="round score 1">Round Score: 0 </div>
+			<div class="row score" id="total score 1">Total Score: 0 </div>
 		</div>
 		<div>
 			<div class="score">Player 2</div>
 			<div class="row score" id="unchecked score 2">UC: 0 </div>
-			<div class="row score" id="checked score 2">C: 0 </div>
-			<div class="row score" id="round score 2">R: 0 </div>
-			<div class="row score" id="total score 2">T: 0 </div>
+			<div class="row score" id="checked score 2">Check Score: 0 </div>
+			<div class="row score" id="round score 2">Round Score: 0 </div>
+			<div class="row score" id="total score 2">Total Score: 0 </div>
 		</div>
 		<!-- Button row -->
 		<div class="row">

@@ -10,7 +10,6 @@ img{
     text-align: center;
 }
 body{
-	background-color: #fff;
 	background-image: linear-gradient(-90deg, #667be6, #754da3);
 	font-family: arial;
 }
@@ -40,7 +39,7 @@ body{
 	font-size: 16px;
 	text-align: center;
 	line-height: 60px;
-	width:120px;
+	width:10em;
 	margin-top: 10px;
 	margin-bottom: 10px;
 	display: inline-block
@@ -104,3 +103,4 @@ button:hover:enabled {
         transform: rotate(8deg);
     }
 }
+
