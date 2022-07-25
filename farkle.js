@@ -347,34 +347,16 @@ function endRoundScore() {
 }
 //checks to see if either player is a winner. If so, get ends and play resets.
 function gameEnd() {
-  if (totalScoreOne >= 10000 || totalScoreTwo >= 10000) {
-    totalScoreOne >= 10000
-      ? (document.getElementById("header").innerHTML = "Player 1 Wins")
-      : (document.getElementById("header").innerHTML = "Player 2 Wins");
-    totalScoreOne = 0;
-    totalScoreTwo = 0;
-    roundScore = 0;
-    checkedScore = 0;
-    uncheckedScore = 0;
-    document.getElementById("total score 2").innerHTML = "Total Score: " + totalScoreTwo;
-    document.getElementById("checked score 2").innerHTML = "Checked Score: " + checkedScore;
-    document.getElementById("round score 2").innerHTML = "Round Score: " + roundScore;
-    document.getElementById("unchecked score 2").innerHTML =
-      "UN: " + uncheckedScore;
-    document.getElementById("total score 1").innerHTML = "T: " + totalScoreTwo;
-    document.getElementById("checked score 1").innerHTML = "C: " + checkedScore;
-    document.getElementById("round score 1").innerHTML = "R: " + roundScore;
-    document.getElementById("unchecked score 1").innerHTML =
-      "UN: " + uncheckedScore;
+  if (activePlayers[player - 1].totalScore >= 100) {
+    document.getElementById("header").innerHTML = `Player ${player} wins! Select Reset to Play Again`;
+    rollBTN.setAttribute("disabled", "")
     bankBTN.setAttribute("disabled", "");
     checkBTN.setAttribute("disabled", "");
-    initializeDice();
-    updateDiceImg();
-    let imgs = document.querySelectorAll("img");
-    imgs.forEach((img) => img.classList.remove("transparent"));
-    player = 1;
-    gameRound = 1;
   }
+}
+
+function gameReset() {
+  document.location.reload(true)
 }
 
 //Still need to add logic that ends users turn if they cannot score with dice shown. Create array of unclicked dice that scores the potential of the unlicked dice. If zero, ends users turn and gives them zero points.
