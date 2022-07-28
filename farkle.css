@@ -83,6 +83,10 @@ button:hover:enabled {
 	/*For dice that are selected*/
 	opacity: 0.50;
 }
+.highlight{
+	background-color: white;
+	color: rgb(0, 0, 0);
+}
 .shake{
     animation: shake 0.5s infinite;
 }

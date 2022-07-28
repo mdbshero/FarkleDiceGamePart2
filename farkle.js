@@ -31,7 +31,7 @@ function pageLoad() {
     var playerBox = document.createElement("div"); //creates the div element to be added.
     //Adds what the div element contains.
     playerBox.innerHTML = `
-<div class="score">Player ${i + 1}</div>
+<div class="score hightlight" id="player ${i + 1}">Player ${i + 1}</div>
 <div class="row score" id="unchecked score ${i + 1}">UC: 0 </div>
 <div class="row score" id="checked score ${i + 1}">Check Score: 0 </div>
 <div class="row score" id="round score ${i + 1}">Round Score: 0 </div>
@@ -63,6 +63,8 @@ function rollDice() {
   //updates header to which round and player.
   document.getElementById("header").innerHTML =
     "Player " + player + " Round: " + gameRound;
+  let playerTitle = document.getElementById(`player ${player}`);
+  playerTitle.classList.add("highlight");
   for (var i = 0; i < 6; i++) {
     if (diceArr[i].clicked === 0) {
       imgs = document.getElementById(diceArr[i].id).classList;
@@ -309,9 +311,9 @@ function bankRoundScore() {
   }
   diceClicked = [];
   document.getElementById(`checked score ${player}`).innerHTML =
-    "Checked: " + checkedScore;
+    "Checked Score: " + checkedScore;
   document.getElementById(`round score ${player}`).innerHTML =
-    "Round: " + roundScore;
+    "Round Score: " + roundScore;
   document.getElementById(`unchecked score ${player}`).innerHTML =
     "UC: " + uncheckedScore;
   rollBTN.removeAttribute("disabled");
@@ -321,6 +323,8 @@ function bankRoundScore() {
 
 //Will eventually end round and bank score but for now just banks total score. Resets images to initial images and resets transparency.
 function endRoundScore() {
+  let playerTitle = document.getElementById(`player ${player}`);
+  playerTitle.classList.remove("highlight");
   activePlayers[player - 1].totalScore += roundScore;
   checkedScore = 0;
   roundScore = 0;
@@ -353,14 +357,14 @@ function endRoundScore() {
 }
 //checks to see if either player is a winner. If so, get ends and play resets.
 function gameEnd() {
-  if (activePlayers[player - 1].totalScore >= 100) {
+  if (activePlayers[player - 1].totalScore >= 10000) {
     document.getElementById(
       "header"
-    ).innerHTML = `Player ${player} wins! Select Reset to Play Again`;
-    rollBTN.setAttribute("disabled", "");
+    ).innerHTML = `Player ${player} wins! Select Reset to Play Again`; //Sets header to which player is the winner.
+    rollBTN.setAttribute("disabled", ""); //The following lines disable all the buttons if the game ends so the players must reset the game to play again.
     bankBTN.setAttribute("disabled", "");
     checkBTN.setAttribute("disabled", "");
-    endBTN.setAttribute("disabled", '');
+    endBTN.setAttribute("disabled", "");
   }
 }
 
