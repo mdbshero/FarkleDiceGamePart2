@@ -51,7 +51,7 @@ function initializeDice() {
 }
 
 function promptPlayers() {
-  playerNum = parseInt(prompt("How many players would you like to play?", 2));//asks player to select how many players and turns it into an int.
+  playerNum = parseInt(prompt("How many players would you like to play?", 2)); //asks player to select how many players and turns it into an int.
   return playerNum;
 }
 
@@ -77,7 +77,8 @@ function rollDice() {
   //checks to see if the player rolled a Farkle aka an unscoring round. Must pass turn.
   if (uncheckedScore === 0) {
     roundScore = 0;
-    document.getElementById(`round score ${player}`).innerHTML = "Round Score: " + roundScore;
+    document.getElementById(`round score ${player}`).innerHTML =
+      "Round Score: " + roundScore;
     //Set buttons to disabled
     rollBTN.setAttribute("disabled", "");
     bankBTN.setAttribute("disabled", "");
@@ -119,7 +120,8 @@ function diceClick(img) {
     diceClicked.push(diceArr[i]); //Creates array filled with clicked dice for scoring.
   } else {
     checkedScore = 0; // resets score so that gameLogic function can recalculate score with new clicked array.
-    document.getElementById(`checked score ${player}`).innerHTML = `Check Score: ` + checkedScore;
+    document.getElementById(`checked score ${player}`).innerHTML =
+      `Check Score: ` + checkedScore;
     diceArr[i].clicked = 0; //Fixed to it actually sets .clicked to 1
     diceClicked = diceClicked.filter((die) => die.id !== diceArr[i].id); //Removed dice from array that are not clicked.
   }
@@ -323,12 +325,17 @@ function endRoundScore() {
   checkedScore = 0;
   roundScore = 0;
   uncheckedScore = 0;
-  document.getElementById(`total score ${player}`).innerHTML = "Total Score: " + activePlayers[player - 1].totalScore;
-  document.getElementById(`header`).innerHTML = `Player ${player} Round: ` + gameRound;
-  document.getElementById(`checked score ${player}`).innerHTML = "Checked Score: " + checkedScore;
-  document.getElementById(`round score ${player}`).innerHTML = "Round Score: " + roundScore;
+  document.getElementById(`total score ${player}`).innerHTML =
+    "Total Score: " + activePlayers[player - 1].totalScore;
+  document.getElementById(`header`).innerHTML =
+    `Player ${player} Round: ` + gameRound;
+  document.getElementById(`checked score ${player}`).innerHTML =
+    "Checked Score: " + checkedScore;
+  document.getElementById(`round score ${player}`).innerHTML =
+    "Round Score: " + roundScore;
   document.getElementById(`unchecked score ${player}`).innerHTML =
     "UN: " + uncheckedScore;
+  rollBTN.removeAttribute("disabled");
   gameEnd();
   if (player === playerNum) {
     gameRound++;
@@ -336,27 +343,29 @@ function endRoundScore() {
   } else {
     player++;
   }
-  console.log(player)
+  console.log(player);
   bankBTN.setAttribute("disabled", "");
   checkBTN.setAttribute("disabled", "");
   initializeDice();
   updateDiceImgEnd();
   let imgs = document.querySelectorAll("img");
   imgs.forEach((img) => img.classList.remove("transparent", "unclickable"));
-  rollBTN.removeAttribute("disabled");
 }
 //checks to see if either player is a winner. If so, get ends and play resets.
 function gameEnd() {
   if (activePlayers[player - 1].totalScore >= 100) {
-    document.getElementById("header").innerHTML = `Player ${player} wins! Select Reset to Play Again`;
-    rollBTN.setAttribute("disabled", "")
+    document.getElementById(
+      "header"
+    ).innerHTML = `Player ${player} wins! Select Reset to Play Again`;
+    rollBTN.setAttribute("disabled", "");
     bankBTN.setAttribute("disabled", "");
     checkBTN.setAttribute("disabled", "");
+    endBTN.setAttribute("disabled", '');
   }
 }
 
 function gameReset() {
-  document.location.reload(true)
+  document.location.reload(true);
 }
 
 //Still need to add logic that ends users turn if they cannot score with dice shown. Create array of unclicked dice that scores the potential of the unlicked dice. If zero, ends users turn and gives them zero points.
