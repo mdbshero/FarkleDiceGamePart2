@@ -31,7 +31,7 @@ function pageLoad() {
     var playerBox = document.createElement("div"); //creates the div element to be added.
     //Adds what the div element contains.
     playerBox.innerHTML = `
-<div class="score hightlight" id="player ${i + 1}">Player ${i + 1}</div>
+<div class="score" id="player ${i + 1}">Player ${i + 1}</div>
 <div class="row score" id="unchecked score ${i + 1}">UC: 0 </div>
 <div class="row score" id="checked score ${i + 1}">Check Score: 0 </div>
 <div class="row score" id="round score ${i + 1}">Round Score: 0 </div>

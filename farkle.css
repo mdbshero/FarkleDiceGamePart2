@@ -19,7 +19,7 @@ body{
 	max-width: 100%;
 }
 .header{
-	height: 100px;
+	height: auto;
 	max-height: 100%;
 	font-size: 50px;
 	text-align: center;
@@ -67,9 +67,7 @@ button:hover:enabled {
     color: black;
 }
 .column{
-	float: left;
-	width:20%;
-	margin-left: 40%;
+	width: 20%;
 }
 .roll{
 }
