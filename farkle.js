@@ -350,12 +350,7 @@ function endRoundScore() {
   rollBTN.removeAttribute("disabled");
   currentWinner();
   gameEnd();
-  if (gameRound.player === playerNum) {
-    gameRound.round++;
-    gameRound.player = 1;
-  } else {
-    gameRound.player++;
-  }
+  gameRoundLogic();
   bankBTN.setAttribute("disabled", "");
   checkBTN.setAttribute("disabled", "");
   initializeDice();
@@ -373,6 +368,16 @@ function gameEnd() {
     bankBTN.setAttribute("disabled", "");
     checkBTN.setAttribute("disabled", "");
     endBTN.setAttribute("disabled", "");
+  }
+}
+
+//determines game round
+function gameRoundLogic() {
+  if (gameRound.player === playerNum) {
+    gameRound.round++;
+    gameRound.player = 1;
+  } else {
+    gameRound.player++;
   }
 }
 
