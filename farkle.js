@@ -6,8 +6,11 @@ var roundScore = 0; // Round Score
 var totalScoreOne = 0; //Total score player 1
 var totalScoreTwo = 0; //Total score player 2
 var dieValues = []; //pulls die values into array
-var gameRound = 1; //Keeps track of game round
-var player = 1; //Current Player
+//Keeps track of game round and current player
+let gameRound = {
+  round: 1,
+  player: 1,
+};
 //Current High Score
 let currentHigh = {
   score: 0,
@@ -67,8 +70,8 @@ function rollDice() {
   uncheckedScore = 0;
   //updates header to which round and player.
   document.getElementById("header").innerHTML =
-    "Player " + player + " Round: " + gameRound;
-  let playerTitle = document.getElementById(`player ${player}`);
+    "Player " + gameRound.player + " Round: " + gameRound.round;
+  let playerTitle = document.getElementById(`player ${gameRound.player}`);
   playerTitle.classList.add("highlight");
   for (var i = 0; i < 6; i++) {
     if (diceArr[i].clicked === 0) {
@@ -84,7 +87,7 @@ function rollDice() {
   //checks to see if the player rolled a Farkle aka an unscoring round. Must pass turn.
   if (uncheckedScore === 0) {
     roundScore = 0;
-    document.getElementById(`round score ${player}`).innerHTML =
+    document.getElementById(`round score ${gameRound.player}`).innerHTML =
       "Round Score: " + roundScore;
     //Set buttons to disabled
     rollBTN.setAttribute("disabled", "");
@@ -127,7 +130,7 @@ function diceClick(img) {
     diceClicked.push(diceArr[i]); //Creates array filled with clicked dice for scoring.
   } else {
     checkedScore = 0; // resets score so that gameLogic function can recalculate score with new clicked array.
-    document.getElementById(`checked score ${player}`).innerHTML =
+    document.getElementById(`checked score ${gameRound.player}`).innerHTML =
       `Check Score: ` + checkedScore;
     diceArr[i].clicked = 0; //Fixed to it actually sets .clicked to 1
     diceClicked = diceClicked.filter((die) => die.id !== diceArr[i].id); //Removed dice from array that are not clicked.
@@ -286,7 +289,7 @@ function checkScoreAll(dice) {
   checkScoreFour(dice);
   checkScoreFive(dice);
   checkScoreSix(dice);
-  document.getElementById(`checked score ${player}`).innerHTML =
+  document.getElementById(`checked score ${gameRound.player}`).innerHTML =
     "Check Score: " + checkedScore;
   bankBTN.removeAttribute("disabled");
 }
@@ -299,7 +302,7 @@ function checkScoreUnclicked(dice) {
   uncheckScoreFour(dice);
   uncheckScoreFive(dice);
   uncheckScoreSix(dice);
-  document.getElementById(`unchecked score ${player}`).innerHTML =
+  document.getElementById(`unchecked score ${gameRound.player}`).innerHTML =
     "UN: " + uncheckedScore;
 }
 //Banks the round score and sets the diceClicked to empty so you cannot use dice you have already scored.
@@ -315,11 +318,11 @@ function bankRoundScore() {
     }
   }
   diceClicked = [];
-  document.getElementById(`checked score ${player}`).innerHTML =
+  document.getElementById(`checked score ${gameRound.player}`).innerHTML =
     "Checked Score: " + checkedScore;
-  document.getElementById(`round score ${player}`).innerHTML =
+  document.getElementById(`round score ${gameRound.player}`).innerHTML =
     "Round Score: " + roundScore;
-  document.getElementById(`unchecked score ${player}`).innerHTML =
+  document.getElementById(`unchecked score ${gameRound.player}`).innerHTML =
     "UC: " + uncheckedScore;
   rollBTN.removeAttribute("disabled");
   checkBTN.setAttribute("disabled", "");
@@ -328,32 +331,31 @@ function bankRoundScore() {
 
 //end round and bank score. Resets images to initial images and resets transparency.
 function endRoundScore() {
-  let playerTitle = document.getElementById(`player ${player}`);
+  let playerTitle = document.getElementById(`player ${gameRound.player}`);
   playerTitle.classList.remove("highlight");
-  activePlayers[player - 1].totalScore += roundScore;
+  activePlayers[gameRound.player - 1].totalScore += roundScore;
   checkedScore = 0;
   roundScore = 0;
   uncheckedScore = 0;
-  document.getElementById(`total score ${player}`).innerHTML =
-    "Total Score: " + activePlayers[player - 1].totalScore;
+  document.getElementById(`total score ${gameRound.player}`).innerHTML =
+    "Total Score: " + activePlayers[gameRound.player - 1].totalScore;
   document.getElementById(`header`).innerHTML =
-    `Player ${player} Round: ` + gameRound;
-  document.getElementById(`checked score ${player}`).innerHTML =
+    `Player ${gameRound.player} Round: ` + gameRound.round;
+  document.getElementById(`checked score ${gameRound.player}`).innerHTML =
     "Checked Score: " + checkedScore;
-  document.getElementById(`round score ${player}`).innerHTML =
+  document.getElementById(`round score ${gameRound.player}`).innerHTML =
     "Round Score: " + roundScore;
-  document.getElementById(`unchecked score ${player}`).innerHTML =
+  document.getElementById(`unchecked score ${gameRound.player}`).innerHTML =
     "UN: " + uncheckedScore;
   rollBTN.removeAttribute("disabled");
   currentWinner();
   gameEnd();
-  if (player === playerNum) {
-    gameRound++;
-    player = 1;
+  if (gameRound.player === playerNum) {
+    gameRound.round++;
+    gameRound.player = 1;
   } else {
-    player++;
+    gameRound.player++;
   }
-  console.log(player);
   bankBTN.setAttribute("disabled", "");
   checkBTN.setAttribute("disabled", "");
   initializeDice();
@@ -363,10 +365,10 @@ function endRoundScore() {
 }
 //checks to see if either player is a winner. If so, get ends and play resets.
 function gameEnd() {
-  if (activePlayers[player - 1].totalScore >= 10000) {
+  if (activePlayers[gameRound.player - 1].totalScore >= 10000) {
     document.getElementById(
       "header"
-    ).innerHTML = `Player ${player} wins! Select Reset to Play Again`; //Sets header to which player is the winner.
+    ).innerHTML = `Player ${gameRound.player} wins! Select Reset to Play Again`; //Sets header to which player is the winner.
     rollBTN.setAttribute("disabled", ""); //The following lines disable all the buttons if the game ends so the players must reset the game to play again.
     bankBTN.setAttribute("disabled", "");
     checkBTN.setAttribute("disabled", "");
@@ -374,18 +376,22 @@ function gameEnd() {
   }
 }
 
+//allows users to reset the game and change amount of players.
 function gameReset() {
   document.location.reload(true);
 }
 
+//determines who has the current high score and highlights that players total score in green.
 function currentWinner() {
-  if (activePlayers[player - 1].totalScore >= currentHigh.score) {
-    let lastHighPlayer = document.getElementById(`total score ${currentHigh.player}`)
-    lastHighPlayer.classList.remove('winning');
-    let playerTotal = document.getElementById(`total score ${player}`);
-    playerTotal.classList.add("winning");
-    currentHigh.score = activePlayers[player - 1].totalScore;
-    currentHigh.player = player;
+  if (activePlayers[gameRound.player - 1].totalScore >= currentHigh.score) {
+    let lastHighPlayer = document.getElementById(
+      `total score ${currentHigh.player}`
+    );
+    lastHighPlayer.classList.remove("winning"); // removes the winning class tag from the previous high score.
+    let playerTotal = document.getElementById(`total score ${gameRound.player}`);
+    playerTotal.classList.add("winning"); // adds the winning class tag to the current high score.
+    currentHigh.score = activePlayers[gameRound.player - 1].totalScore;
+    currentHigh.player = gameRound.player;
   }
 }
 
