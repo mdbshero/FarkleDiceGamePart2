@@ -8,6 +8,11 @@ var totalScoreTwo = 0; //Total score player 2
 var dieValues = []; //pulls die values into array
 var gameRound = 1; //Keeps track of game round
 var player = 1; //Current Player
+//Current High Score
+let currentHigh = {
+  score: 0,
+  player: 1,
+};
 var rollBTN = document.getElementById("roll"); //roll button
 var checkBTN = document.getElementById("check"); //Check score button
 var bankBTN = document.getElementById("bank"); //Bank Score button
@@ -321,7 +326,7 @@ function bankRoundScore() {
   bankBTN.setAttribute("disabled", "");
 }
 
-//Will eventually end round and bank score but for now just banks total score. Resets images to initial images and resets transparency.
+//end round and bank score. Resets images to initial images and resets transparency.
 function endRoundScore() {
   let playerTitle = document.getElementById(`player ${player}`);
   playerTitle.classList.remove("highlight");
@@ -340,6 +345,7 @@ function endRoundScore() {
   document.getElementById(`unchecked score ${player}`).innerHTML =
     "UN: " + uncheckedScore;
   rollBTN.removeAttribute("disabled");
+  currentWinner();
   gameEnd();
   if (player === playerNum) {
     gameRound++;
@@ -370,6 +376,17 @@ function gameEnd() {
 
 function gameReset() {
   document.location.reload(true);
+}
+
+function currentWinner() {
+  if (activePlayers[player - 1].totalScore >= currentHigh.score) {
+    let lastHighPlayer = document.getElementById(`total score ${currentHigh.player}`)
+    lastHighPlayer.classList.remove('winning');
+    let playerTotal = document.getElementById(`total score ${player}`);
+    playerTotal.classList.add("winning");
+    currentHigh.score = activePlayers[player - 1].totalScore;
+    currentHigh.player = player;
+  }
 }
 
 //Still need to add logic that ends users turn if they cannot score with dice shown. Create array of unclicked dice that scores the potential of the unlicked dice. If zero, ends users turn and gives them zero points.
